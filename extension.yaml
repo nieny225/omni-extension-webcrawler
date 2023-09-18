@@ -1,7 +1,9 @@
-title: Template extension
+title: Web Crawler
 version: 0.0.1
 description: This is a template extension
 author: Anonymous
-origin: <Your git repository here, ex) git@github.com:your-github-id/your-github-repo.git>
+origin: https://github.com/nieny225/omni-extension-webcrawler.git
 client:
   addToWorkbench: true
+supports:
+  - "blocks:v2"
