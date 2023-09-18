@@ -1,6 +1,7 @@
 import { OAIBaseComponent, WorkerContext, OmniComponentMacroTypes } from 'mercs_rete';
 import Crawler from 'crawler';
 import he from 'he';
+import cheerio from 'cheerio';
 
 const NS_OMNI = 'web-crawler';
 
@@ -70,6 +71,14 @@ component
       .setRequired(false)
       .toOmniIO()
   )
+  .addInput(
+    component.createInput('maxDepth', 'number')
+        .set('description', 'Maximum depth to crawl.')
+        .setConstraints(1, 10, 1)
+        .setDefault(1)
+        .setRequired(false)
+        .toOmniIO()
+  ) 
   // .addInput(
   //   component.createInput('headers', 'object')
   //     .set('description', 'Custom headers to set for each request.')
@@ -98,11 +107,19 @@ component
     console.log('urls', urls);
     let webContent = '';
     const selector = payload.selector;
+    const maxDepth = payload.maxDepth || 1;
     const crawler = new Crawler({
       maxConnections: 10,
       rateLimit: payload.rateLimit ? payload.rateLimit : 0,
       timeout: payload.timeout ? payload.timeout : 10000, // Default timeout 10000 ms (10 seconds)
       retries: payload.retryLimit ? payload.retryLimit : 3, // Default retry limit is 3
+      preRequest: function(options, done) {
+        if (options.depth > maxDepth) {
+            done(new Error('Max depth reached'));
+        } else {
+            done();
+        }
+      }
     });
 
     try {
@@ -110,12 +127,15 @@ component
             return new Promise((resolve, reject) => {
                 crawler.queue([{
                     uri: url,
+                    depth: 1,
                     callback: (error: Error | null, res: any, done: Function) => {
                       if (error) {
                         console.error(error);
                         reject(error);
                       } else {
-                          const $ = res.$;
+                          let htmlContent = res.body;
+                          htmlContent = htmlContent.replace(/{{<a /g, "{{&lt;a ");
+                          const $ = cheerio.load(htmlContent);
                           if ($) {
                             $('script').remove();
                             $('style').remove();
@@ -131,54 +151,65 @@ component
                             $('a').removeAttr('href');  // remove if links are not needed
                         
                             $('*').removeAttr('style');  // remove style attributes from all elements
-                            $('*').removeAttr((index, name) => name.startsWith('on') ? name : undefined);  // remove all attributes starting with 'on'
+                            // $('*').removeAttr((index, name) => name.startsWith('on') ? name : undefined);  // remove all attributes starting with 'on'
                             
                             // Removing all comments
                             $.root().contents().filter((index, element) => element.type === 'comment').remove(); 
                         
 
-                              let extractedContent = '';
-                              try {
-                                if (selector?.trim()) {
-                                    extractedContent = $(selector).html(); // or .text() depending on what you want to extract
-                                } else {
-                                    extractedContent = $('body').html();
-                                }
-                              } catch (error) {
-                                  console.error('Error with selector, falling back to "body":', error);
-                                  try {
-                                      extractedContent = $('body').html();
-                                  } catch (fallbackError) {
-                                      console.error('Error even with fallback to "body":', fallbackError);
-                                  }
-                              }
-
-                              if (extractedContent) {
-                                // Decode HTML entities
-                                const decodedContent = he.decode(extractedContent);
-                        
-                                // Remove extra whitespaces
-                                const cleanContent = decodedContent.replace(/\s\s+/g, ' ').trim();
-                        
-                                webContent += cleanContent;
+                            let extractedContent = '';
+                            try {
+                              if (selector?.trim()) {
+                                  extractedContent = $(selector).text(); // or .text() depending on what you want to extract
                               } else {
-                                  console.error('No content extracted. Possible issue with the page structure or selector.');
+                                  extractedContent = $('body').text();
                               }
-                          }
-                          resolve(null);
-                      }
-                      done();
-                      }
-                }]);
-            });
-        }));
-    } catch (error) {
-        console.error('Error while crawling:', error);
-        // Handle error appropriately here
-    }
-    
-    return { webContent };
-  });
+                            } catch (error) {
+                                console.error('Error with selector, falling back to "body":', error);
+                                try {
+                                    extractedContent = $('body').text();
+                                } catch (fallbackError) {
+                                    console.error('Error even with fallback to "body":', fallbackError);
+                                }
+                            }
+
+                            if (extractedContent) {
+                              // Decode HTML entities
+                              const decodedContent = he.decode(extractedContent);
+                      
+                              // Remove extra whitespaces
+                              const cleanContent = decodedContent.replace(/\s\s+/g, ' ').trim();
+                      
+                              webContent += cleanContent;
+                            } else {
+                                console.error('No content extracted. Possible issue with the page structure or selector.');
+                            }
+
+                            // If not reached max depth, queue links from this page to be crawled
+                            if (res.options.depth < maxDepth) {
+                                const links = $('a').map((i, el) => $(el).attr('href')).get();
+                                links.forEach(link => {
+                                    crawler.queue({
+                                        uri: link,
+                                        depth: res.options.depth + 1
+                                    });
+                                });
+                            }
+                        }
+                        resolve(null);
+                    }
+                    done();
+                    }
+              }]);
+          });
+      }));
+  } catch (error) {
+      console.error('Error while crawling:', error);
+      // Handle error appropriately here
+  }
+  
+  return { webContent };
+});
 const WebCrawlerComponent = component.toJSON();
 
 export default {

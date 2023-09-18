@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "alpinejs": "^3.12.3",
+    "cheerio": "^1.0.0-rc.12",
     "crawler": "^1.4.0",
     "flip-js": "^0.0.4"
   }
