@@ -85349,18 +85349,27 @@ component.addInput(
                 $2("*").removeAttr((index, name) => name.startsWith("on") ? name : void 0);
                 $2.root().contents().filter((index, element) => element.type === "comment").remove();
                 let extractedContent = "";
-                if (selector?.trim()) {
-                  try {
+                try {
+                  if (selector?.trim()) {
                     extractedContent = $2(selector).html();
-                  } catch (error2) {
-                    console.error("Error with selector:", error2);
+                  } else {
+                    extractedContent = $2("body").html();
                   }
-                } else {
-                  extractedContent = $2("body").html();
+                } catch (error2) {
+                  console.error('Error with selector, falling back to "body":', error2);
+                  try {
+                    extractedContent = $2("body").html();
+                  } catch (fallbackError) {
+                    console.error('Error even with fallback to "body":', fallbackError);
+                  }
                 }
-                const decodedContent = import_he.default.decode(extractedContent);
-                const cleanContent = decodedContent.replace(/\s\s+/g, " ").trim();
-                webContent += cleanContent;
+                if (extractedContent) {
+                  const decodedContent = import_he.default.decode(extractedContent);
+                  const cleanContent = decodedContent.replace(/\s\s+/g, " ").trim();
+                  webContent += cleanContent;
+                } else {
+                  console.error("No content extracted. Possible issue with the page structure or selector.");
+                }
               }
               resolve(null);
             }

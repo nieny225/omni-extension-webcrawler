@@ -138,23 +138,32 @@ component
                         
 
                               let extractedContent = '';
-                              if (selector?.trim()) {
-                                try {
-                                  extractedContent = $(selector).html(); // or .text() depending on what you want to extract
-                                } catch (error) {
-                                    console.error('Error with selector:', error);
+                              try {
+                                if (selector?.trim()) {
+                                    extractedContent = $(selector).html(); // or .text() depending on what you want to extract
+                                } else {
+                                    extractedContent = $('body').html();
                                 }
-                              } else {
-                                  extractedContent = $('body').html();
+                              } catch (error) {
+                                  console.error('Error with selector, falling back to "body":', error);
+                                  try {
+                                      extractedContent = $('body').html();
+                                  } catch (fallbackError) {
+                                      console.error('Error even with fallback to "body":', fallbackError);
+                                  }
                               }
 
-                              // Decode HTML entities
-                              const decodedContent = he.decode(extractedContent);
-
-                              // Remove extra whitespaces
-                              const cleanContent = decodedContent.replace(/\s\s+/g, ' ').trim();
-
-                              webContent += cleanContent;
+                              if (extractedContent) {
+                                // Decode HTML entities
+                                const decodedContent = he.decode(extractedContent);
+                        
+                                // Remove extra whitespaces
+                                const cleanContent = decodedContent.replace(/\s\s+/g, ' ').trim();
+                        
+                                webContent += cleanContent;
+                              } else {
+                                  console.error('No content extracted. Possible issue with the page structure or selector.');
+                              }
                           }
                           resolve(null);
                       }
