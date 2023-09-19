@@ -1,4 +1,4 @@
-import { OAIBaseComponent, WorkerContext, OmniComponentMacroTypes } from 'mercs_rete';
+import { OAIBaseComponent, WorkerContext, OmniComponentMacroTypes } from 'omni-sockets';
 import Crawler from 'crawler';
 import he from 'he';
 import cheerio from 'cheerio';
@@ -23,15 +23,15 @@ let component = OAIBaseComponent.create(NS_OMNI, 'web-crawler')
 component
   .addInput(
     component.createInput('urls', 'string')
+      .set('title', 'URLs')
       .set('description', 'List of URLs to crawl.')
       .setRequired(true)
       .toOmniIO()
   )
   .addInput(
     component.createInput('rateLimit', 'number')
-      .set('title', 'Rate Limit(ms)')
+      .set('title', 'Interval (ms)')
       .set('description', 'Minimum time gap between two tasks in milliseconds.')
-      .setConstraints(0, 30000, 500)
       .setDefault(0)
       .setRequired(false)
       .toOmniIO()
@@ -50,6 +50,7 @@ component
   // )
   .addInput(
     component.createInput('retryLimit', 'number')
+      .set('title', 'Max Retry')
       .set('description', 'Maximum number of retries for each task.')
       .setConstraints(0, 10, 1)
       .setDefault(3)
@@ -58,7 +59,7 @@ component
   )
   .addInput(
     component.createInput('timeout', 'number')
-      .set('title', 'Timeout(ms)')
+      .set('title', 'Timeout (ms)')
       .set('description', 'Timeout for each request in milliseconds.')
       .setDefault(15000)
       .setRequired(false)
