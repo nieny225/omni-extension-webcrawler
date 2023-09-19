@@ -77955,7 +77955,7 @@ var require_commonjs = __commonJS({
   }
 });
 
-// ../../../mercs_rete/lib/index.js
+// ../../../omni-ui/omni-sockets/lib/index.js
 var import_jsonata = __toESM(require_jsonata(), 1);
 import { formatWithOptions } from "util";
 import { sep } from "path";
@@ -77998,7 +77998,7 @@ var __toESM2 = (mod, isNodeMode, target) => (target = mod != null ? __create2(__
   mod
 ));
 var require_cjs = __commonJS2({
-  "../../node_modules/deepmerge/dist/cjs.js"(exports, module) {
+  "../../../node_modules/deepmerge/dist/cjs.js"(exports, module) {
     "use strict";
     var isMergeableObject = function isMergeableObject2(value) {
       return isNonNullObject(value) && !isSpecial(value);
@@ -78175,7 +78175,7 @@ var paused;
 var queue;
 var Consola;
 var init_core = __esm({
-  "../../node_modules/consola/dist/core.mjs"() {
+  "../../../node_modules/consola/dist/core.mjs"() {
     "use strict";
     LogLevels = {
       silent: Number.NEGATIVE_INFINITY,
@@ -78526,7 +78526,7 @@ function writeStream(data2, stream) {
 var bracket;
 var BasicReporter;
 var init_consola_06ad8a64 = __esm({
-  "../../node_modules/consola/dist/shared/consola.06ad8a64.mjs"() {
+  "../../../node_modules/consola/dist/shared/consola.06ad8a64.mjs"() {
     "use strict";
     bracket = (x) => x ? `[${x}]` : "";
     BasicReporter = class {
@@ -78686,7 +78686,7 @@ var ansiRegex;
 var boxStylePresets;
 var defaultStyle;
 var init_utils = __esm({
-  "../../node_modules/consola/dist/utils.mjs"() {
+  "../../../node_modules/consola/dist/utils.mjs"() {
     "use strict";
     ({
       env = {},
@@ -79017,7 +79017,7 @@ var confirm;
 var select;
 var multiselect;
 var init_prompt = __esm({
-  "../../node_modules/consola/dist/chunks/prompt.mjs"() {
+  "../../../node_modules/consola/dist/chunks/prompt.mjs"() {
     "use strict";
     init_consola_36c0034f();
     init_utils();
@@ -79827,7 +79827,7 @@ var TYPE_ICONS;
 var FancyReporter;
 var consola;
 var init_consola_36c0034f = __esm({
-  "../../node_modules/consola/dist/shared/consola.36c0034f.mjs"() {
+  "../../../node_modules/consola/dist/shared/consola.36c0034f.mjs"() {
     "use strict";
     init_core();
     init_consola_06ad8a64();
@@ -80055,7 +80055,7 @@ var init_consola_36c0034f = __esm({
   }
 });
 var require_he = __commonJS2({
-  "../../node_modules/he/he.js"(exports, module) {
+  "../../../node_modules/he/he.js"(exports, module) {
     "use strict";
     (function(root3) {
       var freeExports = typeof exports == "object" && exports;
@@ -80295,7 +80295,7 @@ var require_he = __commonJS2({
   }
 });
 var require_assignment = __commonJS2({
-  "../../node_modules/assignment/assignment.js"(exports, module) {
+  "../../../node_modules/assignment/assignment.js"(exports, module) {
     "use strict";
     function assignment(result) {
       var stack = Array.prototype.slice.call(arguments, 1);
@@ -80319,7 +80319,7 @@ var require_assignment = __commonJS2({
   }
 });
 var require_lowercase = __commonJS2({
-  "../../node_modules/insane/lowercase.js"(exports, module) {
+  "../../../node_modules/insane/lowercase.js"(exports, module) {
     "use strict";
     module.exports = function lowercase(string) {
       return typeof string === "string" ? string.toLowerCase() : string;
@@ -80327,7 +80327,7 @@ var require_lowercase = __commonJS2({
   }
 });
 var require_toMap = __commonJS2({
-  "../../node_modules/insane/toMap.js"(exports, module) {
+  "../../../node_modules/insane/toMap.js"(exports, module) {
     "use strict";
     function toMap(list) {
       return list.reduce(asKey, {});
@@ -80340,7 +80340,7 @@ var require_toMap = __commonJS2({
   }
 });
 var require_attributes = __commonJS2({
-  "../../node_modules/insane/attributes.js"(exports, module) {
+  "../../../node_modules/insane/attributes.js"(exports, module) {
     "use strict";
     var toMap = require_toMap();
     var uris = ["background", "base", "cite", "href", "longdesc", "src", "usemap"];
@@ -80351,7 +80351,7 @@ var require_attributes = __commonJS2({
   }
 });
 var require_elements = __commonJS2({
-  "../../node_modules/insane/elements.js"(exports, module) {
+  "../../../node_modules/insane/elements.js"(exports, module) {
     "use strict";
     var toMap = require_toMap();
     var voids = ["area", "br", "col", "hr", "img", "wbr", "input", "base", "basefont", "link", "meta"];
@@ -80361,7 +80361,7 @@ var require_elements = __commonJS2({
   }
 });
 var require_parser = __commonJS2({
-  "../../node_modules/insane/parser.js"(exports, module) {
+  "../../../node_modules/insane/parser.js"(exports, module) {
     "use strict";
     var he2 = require_he();
     var lowercase = require_lowercase();
@@ -80485,7 +80485,7 @@ var require_parser = __commonJS2({
   }
 });
 var require_sanitizer = __commonJS2({
-  "../../node_modules/insane/sanitizer.js"(exports, module) {
+  "../../../node_modules/insane/sanitizer.js"(exports, module) {
     "use strict";
     var he2 = require_he();
     var lowercase = require_lowercase();
@@ -80615,7 +80615,7 @@ var require_sanitizer = __commonJS2({
   }
 });
 var require_defaults = __commonJS2({
-  "../../node_modules/insane/defaults.js"(exports, module) {
+  "../../../node_modules/insane/defaults.js"(exports, module) {
     "use strict";
     var defaults = {
       allowedAttributes: {
@@ -80677,7 +80677,7 @@ var require_defaults = __commonJS2({
   }
 });
 var require_insane = __commonJS2({
-  "../../node_modules/insane/insane.js"(exports, module) {
+  "../../../node_modules/insane/insane.js"(exports, module) {
     "use strict";
     var he2 = require_he();
     var assign = require_assignment();
@@ -80696,7 +80696,7 @@ var require_insane = __commonJS2({
   }
 });
 var require_rete_common = __commonJS2({
-  "../../node_modules/rete/build/rete.common.js"(exports) {
+  "../../../node_modules/rete/build/rete.common.js"(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function ownKeys(object, enumerableOnly) {
@@ -99353,13 +99353,13 @@ var component = OAIBaseComponent.create(NS_OMNI, "web-crawler").fromScratch().se
   }
 });
 component.addInput(
-  component.createInput("urls", "string").set("description", "List of URLs to crawl.").setRequired(true).toOmniIO()
+  component.createInput("urls", "string").set("title", "URLs").set("description", "List of URLs to crawl.").setRequired(true).toOmniIO()
 ).addInput(
-  component.createInput("rateLimit", "number").set("title", "Rate Limit(ms)").set("description", "Minimum time gap between two tasks in milliseconds.").setConstraints(0, 3e4, 500).setDefault(0).setRequired(false).toOmniIO()
+  component.createInput("rateLimit", "number").set("title", "Interval (ms)").set("description", "Minimum time gap between two tasks in milliseconds.").setDefault(0).setRequired(false).toOmniIO()
 ).addInput(
-  component.createInput("retryLimit", "number").set("description", "Maximum number of retries for each task.").setConstraints(0, 10, 1).setDefault(3).setRequired(false).toOmniIO()
+  component.createInput("retryLimit", "number").set("title", "Max Retry").set("description", "Maximum number of retries for each task.").setConstraints(0, 10, 1).setDefault(3).setRequired(false).toOmniIO()
 ).addInput(
-  component.createInput("timeout", "number").set("title", "Timeout(ms)").set("description", "Timeout for each request in milliseconds.").setDefault(15e3).setRequired(false).toOmniIO()
+  component.createInput("timeout", "number").set("title", "Timeout (ms)").set("description", "Timeout for each request in milliseconds.").setDefault(15e3).setRequired(false).toOmniIO()
 ).addInput(
   component.createInput("selector", "string").set("description", "Optional selector for operations that require it.").setDefault("body").setRequired(false).toOmniIO()
 ).addInput(
