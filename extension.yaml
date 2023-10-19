@@ -4,6 +4,6 @@ description: A extension to provide blocks for web crawling
 author: Nick Yang
 origin: https://github.com/nieny225/omni-extension-webcrawler.git
 client:
-  addToWorkbench: true
+  addToWorkbench: false
 supports:
   - "blocks:v2"
